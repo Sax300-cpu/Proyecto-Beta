@@ -1,0 +1,116 @@
+Instrucciones para la Instalación y Ejecución del Sistema Web de Gestión y Venta de Pasajes
+
+Este documento proporciona los pasos necesarios para instalar y ejecutar el proyecto localmente. El sistema utiliza Docker para la orquestación de servicios, asegurando un entorno de desarrollo consistente.
+
+## 1. Requisitos Previos
+
+Necesitas tener **Docker Desktop** instalado en tu sistema. Docker Desktop incluye Docker Engine, Docker CLI y Docker Compose, que son componentes esenciales para levantar el entorno de desarrollo.
+
+*   **Descargar Docker Desktop:** Visita [https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/) y sigue las instrucciones de instalación para tu sistema operativo (Windows, macOS o Linux). Asegúrate de que Docker esté en funcionamiento antes de continuar.
+
+## 2. Configuración del Proyecto
+
+### 2.1. Navegar al Directorio del Proyecto
+
+Abre tu terminal o línea de comandos y navega hasta el directorio raíz del proyecto `pasajes`. En tu caso, este directorio se encuentra en `c:/Users/Usuario/Proyecto2/pasajes/`.
+
+```bash
+cd c:/Users/Usuario/Proyecto2/pasajes/
+```
+
+### 2.2. Configurar Variables de Entorno
+
+El proyecto utiliza un archivo `.env` para la configuración de variables de entorno. Necesitas crear este archivo a partir del ejemplo proporcionado:
+
+1.  **Copiar el archivo de ejemplo:**
+    ```bash
+    cp .env.example .env
+    ```
+
+2.  **Editar el archivo `.env`:** Abre el archivo `.env` recién creado con un editor de texto de tu preferencia. Aunque muchas de las configuraciones ya están optimizadas para Docker y el desarrollo local (como las de base de datos y Mailpit), hay algunas variables importantes que debes revisar y, si es necesario, configurar:
+
+    ```ini
+    APP_NAME="Sistema de Pasajes"
+    APP_ENV=local
+    APP_DEBUG=true
+    APP_URL=http://localhost:8000
+    
+    DB_CONNECTION=pgsql
+    DB_HOST=pgsql
+    DB_PORT=5432
+    DB_DATABASE=pasajes
+    DB_USERNAME=pasajes
+    DB_PASSWORD=secret
+    
+    MAIL_MAILER=smtp
+    MAIL_HOST=mailpit
+    MAIL_PORT=1025
+    MAIL_USERNAME=null
+    MAIL_PASSWORD=null
+    MAIL_FROM_ADDRESS="no-reply@cooperativapasajes.com"
+    MAIL_FROM_NAME="${APP_NAME}"
+    
+    PAYPAL_MODE=sandbox
+    PAYPAL_CLIENT_ID=
+    PAYPAL_CLIENT_SECRET=
+    PAYPAL_CURRENCY=USD
+    ```
+
+    *   **APP_KEY:** Esta variable es crucial para la seguridad de Laravel. Necesitarás generarla. Puedes hacerlo una vez que el contenedor `app` esté en funcionamiento (ver Paso 3.1):
+        ```bash
+        docker exec pasajes_app php artisan key:generate
+        ```
+    *   **PAYPAL_CLIENT_ID y PAYPAL_CLIENT_SECRET:** Si planeas probar la funcionalidad de pagos con PayPal, deberás obtener tus credenciales de cliente (ID y secreto) desde tu cuenta de desarrollador de PayPal (modo sandbox es recomendado para pruebas) y añadirlas en este archivo.
+
+## 3. Ejecución del Proyecto con Docker Compose
+
+### 3.1. Levantar los Servicios
+
+Desde el directorio `c:/Users/Usuario/Proyecto2/pasajes/`, ejecuta el siguiente comando para construir las imágenes (si es la primera vez o si hay cambios en el `Dockerfile`) y levantar todos los servicios definidos en `docker-compose.yml`:
+
+```bash
+docker-compose up -d --build
+```
+
+Este comando realizará las siguientes acciones:
+*   Construirá las imágenes Docker para la aplicación (`app`) y el servicio de cola (`queue`) basándose en el `Dockerfile` del proyecto. Esto incluye la instalación de dependencias de PHP (Composer) y Node.js (npm).
+*   Descargará (si es necesario) y levantará las imágenes para la base de datos PostgreSQL (`pgsql`) y el servidor de correo de desarrollo Mailpit (`mailpit`).
+*   Expondrá la aplicación web en el puerto `8000` de tu máquina local y la interfaz de Mailpit en el puerto `8025`.
+*   Los contenedores se ejecutarán en segundo plano (`-d`).
+
+### 3.2. Ejecutar Migraciones y Seeds de Base de Datos
+
+Una vez que los servicios estén en funcionamiento (lo cual puede tomar unos minutos la primera vez mientras se construyen las imágenes y se instalan las dependencias), necesitas ejecutar las migraciones para crear la estructura de la base de datos y, opcionalmente, los seeders para poblar la base de datos con datos de prueba (como usuarios de ejemplo, rutas, etc.).
+
+```bash
+docker exec pasajes_app php artisan migrate --seed
+```
+
+*   `pasajes_app`: Es el nombre del contenedor de la aplicación principal, definido en `docker-compose.yml`.
+*   `php artisan migrate --seed`: Este comando de Laravel ejecuta todas las migraciones pendientes para crear las tablas de la base de datos y luego ejecuta los seeders definidos en el proyecto.
+
+## 4. Acceder a la Aplicación
+
+Una vez completados los pasos anteriores, podrás acceder a la aplicación y a las herramientas de desarrollo:
+
+*   **Aplicación Web:** Abre tu navegador web y visita `http://localhost:8000`.
+*   **Mailpit (Bandeja de Entrada de Correos de Desarrollo):** Abre tu navegador web y visita `http://localhost:8025`. Aquí podrás ver todos los correos electrónicos enviados por la aplicación durante el desarrollo.
+
+## 5. Detener los Servicios
+
+Para detener y eliminar los contenedores, las redes y los volúmenes (datos de la base de datos) creados por Docker Compose:
+
+```bash
+docker-compose down
+```
+
+Para detener los servicios, pero mantener los contenedores y sus datos (volúmenes persistentes para la base de datos, por ejemplo), para poder reiniciarlos más tarde rápidamente:
+
+```bash
+docker-compose stop
+```
+
+## Notas Importantes
+
+*   **Hoja de Ruta y Frecuencias:** La especificación del proyecto establece que una frecuencia solo está disponible para la venta cuando tiene un bus asignado en la hoja de ruta. Deberás configurar estas asignaciones a través del panel de administración de la aplicación una vez que esté operativa.
+*   **Roles de Usuario:** El sistema está diseñado para manejar diferentes roles de usuario (Administrador de Cooperativa, Oficinista, Usuario Final, Chofer/Controlador). Los seeders deberían crear usuarios de ejemplo para cada rol, permitiéndote probar las diferentes funcionalidades.

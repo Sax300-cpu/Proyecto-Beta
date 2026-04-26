@@ -1,0 +1,85 @@
+# Completar Sistema Web de Gestión y Venta de Pasajes
+
+He revisado el archivo de especificaciones actualizado (`especificacion_agente_pasajes.md`). Entiendo que no se trata de un SaaS con facturación global, sino de un sistema donde cada cooperativa gestiona su propia operación (multi-cooperativa) pero todas pueden coexistir en la misma plataforma. Además, he tomado nota de las instrucciones críticas: entregar todo el sistema funcional (Frontend, Backend, Base de Datos, Docker), sin preocuparse por versiones o ramas de Git.
+
+El sistema actual en el directorio `pasajes` ya cuenta con una buena base (modelos, roles, vistas admin iniciales y Livewire para asientos). A continuación, presento el plan para completarlo y dejarlo 100% operativo según la especificación.
+
+## User Review Required
+
+Por favor, revisa las integraciones propuestas a continuación (especialmente Docker y PayPal) y confírmame si estás de acuerdo con el enfoque antes de proceder a escribir el código y configurar la infraestructura.
+
+## Proposed Changes
+
+### Infraestructura y Docker
+
+- **[NEW] `docker-compose.yml`**: Configuración con los servicios `app` (Laravel 11 + PHP 8.2 + Servidor web integrado o Nginx), `pgsql` (PostgreSQL 15+) y `mailhog` o `mailpit` (para interceptar correos de prueba locales).
+- **[NEW] `Dockerfile`**: Para construir la imagen de Laravel con extensiones necesarias.
+- **[MODIFY] `.env.example` y `.env`**: Configurar para usar la base de datos Dockerizada, el SMTP de Mailhog/Mailpit, y las credenciales sandbox de PayPal.
+- **[NEW] `README.md`**: Instrucciones claras para inicializar todo con `docker-compose up` y comandos para poblar la base de datos (seeding).
+
+### Diseño y Estética (UI/UX)
+
+- **[NEW] Esquema de Colores**: El diseño principal usará **Negro** como color base, con **toques sutiles de Amarillo**. El amarillo se utilizará de manera medida y estratégica (ej. botones de acción principal, detalles de tarjetas) para mantener una estética premium y elegante sin saturar la vista.
+- **[MODIFY] Semilla de Datos (Seeder)**: Se configurará el sistema para usar **Cooperativa Baños** como la cooperativa principal de prueba, integrando su logo e imágenes proporcionadas.
+
+### Multi-Cooperativa (Aislamiento de Datos)
+
+- **[MODIFY] Modelos (`Bus`, `Ruta`, `Frecuencia`, `HojaRuta`, `User`)**: Implementación de un `GlobalScope` (`CooperativaScope`). Si el usuario autenticado es Admin/Gerente, Oficinista o Chofer, el sistema aplicará automáticamente un filtro `where('cooperativa_id', auth()->user()->cooperativa_id)`. Los usuarios finales (pasajeros) no tendrán este filtro para poder buscar pasajes en cualquier cooperativa.
+
+### Módulo de Venta — Usuario Final (Online)
+
+- **[MODIFY] `routes/web.php`**: Crear rutas públicas para buscar pasajes (`/buscar`), ver detalles, y comprar.
+- **[NEW] `BuscadorController`**: Controlador para realizar búsquedas de frecuencias habilitadas (hojas de ruta) aplicando filtros por origen, destino, fecha, etc.
+- **[MODIFY] Vistas Públicas**: Construcción de la interfaz responsive con TailwindCSS.
+- **[NEW] Integración de Pagos (PayPal Sandbox)**: Implementar la pasarela de pagos al momento del checkout (simulada o sandbox) y generar el registro final en la base de datos si el pago es exitoso.
+- **[NEW] Mails (`BoletoGeneradoMail`, `ReembolsoSolicitadoMail`)**: Notificaciones por correo que adjunten el código QR del boleto digital.
+
+### Módulo de Personal del Bus (Chofer / Controlador)
+
+- **[MODIFY] Vistas del Chofer (`chofer/escaner.blade.php`)**: Asegurar que sea 100% usable desde un celular. Integración de una librería JavaScript (`html5-qrcode`) para escanear directamente desde la cámara del navegador web.
+- **[NEW] Manifiesto de Viaje**: Vista para el chofer donde pueda ver qué pasajeros ya abordaron y quiénes faltan, así como realizar ventas rápidas en paradas intermedias.
+
+### Reglas de Negocio y Control de Corte
+
+- **[MODIFY] `CheckBusNoPartido` Middleware**: Afinar la lógica para bloquear las ventas de oficinistas si la hoja de ruta indica que el bus ya partió del origen de la terminal donde se encuentra el oficinista.
+
+## Verification Plan
+
+### Automated Tests
+
+- Validar mediante el inicio del contenedor con `docker-compose up -d`.
+- Correr migraciones y seeders (`php artisan migrate:fresh --seed`) en el contenedor para verificar la carga inicial.
+
+### Manual Verification
+
+- Iniciar sesión como Usuario Final, realizar una búsqueda origen-destino, seleccionar asientos y pagar (flujo de compra online).
+- Iniciar sesión como Oficinista, vender un pasaje y verificar que la frecuencia se descuente.
+- Iniciar sesión como Chofer desde un navegador simulando móvil, acceder a la cámara y escanear el QR simulado del pasajero.
+- Revisar Mailpit (`localhost:8025`) para asegurar que los correos con QR y solicitudes de reembolso se están enviando.
+
+- ok agregale al plan que se invente una coop o use una que ya existe que es la coop Baños ya te carge imagenes incluyendo el logo , los colores a usar en la pagina se mantiene negro , con toques amarillos, pero no quiero que haya mucho amarillo  hacer que no se vea muy bien , ok agrega esto y procede
+
+# Tareas del Sistema de Pasajes
+
+- [x]  Configuración inicial
+    - [x]  Mover imágenes de `d:\\Proyecto2\\` a `d:\\Proyecto2\\pasajes\\public\\images\\`
+    - [x]  Modificar `DatabaseSeeder.php` para usar Cooperativa Baños, logo y esquema de color (Negro/Amarillo).
+- [ ]  Configuración Docker
+    - [ ]  Publicar y configurar Laravel Sail (`docker-compose.yml`) con PostgreSQL y Mailpit.
+    - [ ]  Modificar `.env` con las variables de base de datos, correo y PayPal Sandbox.
+- [ ]  Multi-Cooperativa
+    - [ ]  Crear el `CooperativaScope`.
+    - [ ]  Aplicar el scope a los modelos `Bus`, `Ruta`, `Frecuencia`, `HojaRuta`, y `User`.
+- [ ]  Diseño y Frontend (Negro y Amarillo sutil)
+    - [ ]  Actualizar el esquema de colores en Tailwind.
+    - [ ]  Crear la página de inicio (Buscador público).
+    - [ ]  Crear vistas de resultados y detalles.
+- [ ]  Venta Online y PayPal
+    - [ ]  Implementar checkout con simulación/sandbox de PayPal.
+    - [ ]  Enviar correo con boleto y QR al comprar.
+- [ ]  Módulo Chofer (QR)
+    - [ ]  Ajustar vista móvil de chofer.
+    - [ ]  Integrar lector QR JS para validación de pasajeros en la puerta del bus.
+- [ ]  Revisión final
+    - [ ]  Verificar middleware `CheckBusNoPartido`.
+    - [ ]  Confirmar despliegue limpio.

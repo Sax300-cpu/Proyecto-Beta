@@ -1,0 +1,71 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pasajes_app
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - "8000:8000"
+      - "5173:5173"
+    depends_on:
+      pgsql:
+        condition: service_healthy
+      mailpit:
+        condition: service_started
+    networks:
+      - pasajes
+
+  queue:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pasajes_queue
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    command: sh -lc "composer install --no-interaction --prefer-dist && php artisan queue:work --tries=3 --timeout=90"
+    depends_on:
+      pgsql:
+        condition: service_healthy
+    networks:
+      - pasajes
+
+  pgsql:
+    image: postgres:15
+    container_name: pasajes_pgsql
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: pasajes
+      POSTGRES_USER: pasajes
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - pgsql_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pasajes -d pasajes"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - pasajes
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: pasajes_mailpit
+    restart: unless-stopped
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - pasajes
+
+volumes:
+  pgsql_data:
+
+networks:
+  pasajes:
+    driver: bridge
