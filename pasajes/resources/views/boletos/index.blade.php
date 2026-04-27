@@ -6,7 +6,9 @@
 
         @if($boletos->isEmpty())
         <div class="text-center py-16 text-gray-500">
-            <div class="text-5xl mb-4">🎫</div>
+            <div class="mb-4 flex justify-center">
+                <svg class="w-16 h-16 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"></path></svg>
+            </div>
             <p class="text-lg">Aún no tienes boletos.</p>
             <a href="{{ route('home') }}" class="mt-4 inline-block px-6 py-3 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl transition">
                 Buscar frecuencias

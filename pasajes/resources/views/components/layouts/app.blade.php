@@ -88,10 +88,10 @@
     @endif
 
     {{-- Navbar --}}
-    <nav class="bg-gray-950/80 backdrop-blur-xl border-b border-gray-800 sticky top-0 z-40">
+    <nav x-data="{ mobileMenuOpen: false }" class="bg-gray-950/80 backdrop-blur-xl border-b border-gray-800 sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
-                <a href="{{ route('home') }}" class="flex items-center gap-3 group">
+                <a href="{{ route('home') }}" class="flex items-center gap-3 group z-50 relative">
                     <div class="w-10 h-10 bg-gradient-to-br from-brand-500 to-brand-600 rounded-xl flex items-center justify-center shadow-lg shadow-brand-500/20 group-hover:scale-105 transition-transform text-black">
                         <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
@@ -100,9 +100,10 @@
                     <span class="font-black text-xl tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">PasajesEcuador</span>
                 </a>
 
-                <div class="flex items-center gap-4">
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center gap-4">
                     @auth
-                        <div class="hidden md:flex items-center gap-2 mr-4">
+                        <div class="flex items-center gap-2 mr-4">
                             <div class="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center text-sm font-bold border border-gray-700">
                                 {{ substr(auth()->user()->name, 0, 1) }}
                             </div>
@@ -137,6 +138,72 @@
                         </a>
                     @endauth
                 </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="flex md:hidden items-center z-50 relative">
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="text-gray-400 hover:text-white focus:outline-none">
+                        <svg x-show="!mobileMenuOpen" class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                        <svg x-show="mobileMenuOpen" style="display: none;" class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div x-show="mobileMenuOpen" x-transition.opacity style="display: none;" class="fixed inset-0 bg-black/80 backdrop-blur-md z-40 md:hidden"></div>
+
+        <!-- Mobile Menu Content -->
+        <div x-show="mobileMenuOpen" 
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 -translate-y-4"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-150"
+             x-transition:leave-start="opacity-100 translate-y-0"
+             x-transition:leave-end="opacity-0 -translate-y-4"
+             style="display: none;"
+             class="absolute top-16 left-0 right-0 bg-gray-900 border-b border-gray-800 z-40 md:hidden shadow-2xl">
+            <div class="px-4 py-6 space-y-4 flex flex-col">
+                @auth
+                    <div class="flex items-center gap-3 pb-4 border-b border-gray-800">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-600 to-brand-500 flex items-center justify-center text-lg font-bold text-white">
+                            {{ substr(auth()->user()->name, 0, 1) }}
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-bold text-white">{{ auth()->user()->name }}</span>
+                            <span class="text-xs uppercase tracking-wider text-brand-400 font-bold">{{ auth()->user()->getRoleNames()->first() }}</span>
+                        </div>
+                    </div>
+
+                    @if(auth()->user()->hasAnyRole(['Admin','Oficinista']))
+                    <a href="{{ route('admin.dashboard') }}" class="flex items-center text-base font-semibold text-gray-300 hover:text-white py-2">
+                        Panel de Administración
+                    </a>
+                    @endif
+
+                    @if(auth()->user()->hasRole('Chofer'))
+                    <a href="{{ route('chofer.escaner') }}" class="flex items-center text-base font-semibold text-gray-300 hover:text-white py-2">
+                        Panel de Chofer
+                    </a>
+                    @endif
+
+                    <a href="{{ route('mis-boletos') }}" class="flex items-center text-base font-semibold text-gray-300 hover:text-white py-2">
+                        Mis Boletos
+                    </a>
+
+                    <form method="POST" action="{{ route('logout') }}" class="pt-4 border-t border-gray-800">
+                        @csrf
+                        <button type="submit" class="w-full text-center py-3 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-xl font-bold transition">
+                            Cerrar Sesión
+                        </button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="block w-full text-center py-3 font-semibold text-gray-300 hover:text-white bg-gray-800 rounded-xl border border-gray-700">
+                        Ingresar a mi cuenta
+                    </a>
+                    <a href="{{ route('register') }}" class="block w-full text-center py-3 bg-brand-600 hover:bg-brand-500 text-white rounded-xl font-bold shadow-lg shadow-brand-500/20 transition">
+                        Crear una cuenta nueva
+                    </a>
+                @endauth
             </div>
         </div>
     </nav>

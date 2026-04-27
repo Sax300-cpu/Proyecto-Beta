@@ -8,6 +8,7 @@ if [ ! -f .env ]; then
 fi
 
 if [ ! -f vendor/autoload.php ]; then
+  export COMPOSER_PROCESS_TIMEOUT=2000
   composer install --no-interaction --prefer-dist
 fi
 

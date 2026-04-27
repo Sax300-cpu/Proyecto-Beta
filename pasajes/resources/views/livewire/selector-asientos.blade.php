@@ -22,7 +22,10 @@
     {{-- Boleto generado --}}
     @if($boletoGeneradoId)
     <div class="bg-green-900/50 border border-green-700 text-green-300 px-6 py-5 rounded-xl mb-6">
-        <p class="font-bold text-green-200 text-lg">✅ ¡Boleto generado exitosamente!</p>
+        <div class="flex items-center gap-2 mb-1">
+            <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <p class="font-bold text-green-200 text-lg">¡Boleto generado exitosamente!</p>
+        </div>
         <p class="mt-1">Tu boleto ha sido creado. Debes subir el comprobante de pago para activarlo.</p>
         <a href="{{ route('boleto.ver', $boletoGeneradoId) }}"
            class="mt-3 inline-block px-5 py-2.5 bg-green-600 hover:bg-green-500 rounded-xl font-semibold transition">
@@ -119,8 +122,9 @@
 
             @if($asientoSeleccionado)
             @php $asientoObj = $asientos->firstWhere('id', $asientoSeleccionado); @endphp
-            <div class="bg-brand-900/40 border border-brand-800 rounded-xl px-4 py-2 mb-5 text-sm text-brand-200">
-                ✅ Asiento {{ $asientoObj?->numero }} ({{ $asientoObj?->tipo }}) seleccionado
+            <div class="bg-brand-900/40 border border-brand-800 rounded-xl px-4 py-2 mb-5 text-sm text-brand-200 flex items-center gap-2">
+                <svg class="w-5 h-5 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                Asiento {{ $asientoObj?->numero }} ({{ $asientoObj?->tipo }}) seleccionado
             </div>
             @endif
 
@@ -179,8 +183,9 @@
                     <p class="text-sm text-yellow-300">Asiento: <strong>{{ $asientoObj?->numero ?? '-' }}</strong> • Pasajero: <strong>{{ $nombre_pasajero }}</strong></p>
                     <div class="flex gap-3 mt-3">
                         <button wire:click="comprar"
-                            class="flex-1 py-2.5 bg-green-600 hover:bg-green-500 rounded-xl font-bold text-white transition">
-                            ✅ Confirmar
+                            class="flex-1 flex items-center justify-center gap-2 py-2.5 bg-green-600 hover:bg-green-500 rounded-xl font-bold text-white transition">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Confirmar
                         </button>
                         <button wire:click="cancelarConfirmacion"
                             class="flex-1 py-2.5 bg-gray-700 hover:bg-gray-600 rounded-xl font-medium text-gray-200 transition">

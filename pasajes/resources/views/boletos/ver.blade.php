@@ -111,7 +111,7 @@
         @if($boleto->estado === 'Pendiente' && !$boleto->comprobante)
         <div class="bg-gray-900 border border-yellow-700/50 rounded-2xl p-6 mt-6 shadow-xl">
             <div class="flex items-start gap-3 mb-4">
-                <span class="text-2xl">⚠️</span>
+                <svg class="w-8 h-8 text-yellow-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
                 <div>
                     <h3 class="font-bold text-yellow-500 text-lg">Boleto Pendiente de Pago</h3>
                     <p class="text-sm text-gray-400 mt-1">Puedes pagar en linea con PayPal Sandbox o realizar transferencia y subir comprobante.</p>
@@ -140,14 +140,16 @@
         </div>
         @elseif($boleto->comprobante && $boleto->comprobante->estado === 'Pendiente')
         <div class="bg-brand-900/30 border border-brand-800 rounded-2xl p-6 mt-6 text-center">
-            <span class="text-3xl mb-2 block">⏳</span>
+            <div class="mb-2 flex justify-center">
+                <svg class="w-10 h-10 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
             <h3 class="font-bold text-brand-400">Comprobante en Revisión</h3>
             <p class="text-sm text-brand-200/70 mt-1">Hemos recibido tu comprobante. Un oficinista lo validará pronto y tu boleto se activará automáticamente.</p>
         </div>
         @elseif($boleto->comprobante && $boleto->comprobante->estado === 'Rechazado')
         <div class="bg-red-900/30 border border-red-800 rounded-2xl p-6 mt-6">
             <div class="flex items-start gap-3 mb-4">
-                <span class="text-2xl">❌</span>
+                <svg class="w-8 h-8 text-red-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 <div>
                     <h3 class="font-bold text-red-500 text-lg">Comprobante Rechazado</h3>
                     <p class="text-sm text-red-200 mt-1">Motivo: {{ $boleto->comprobante->observaciones ?? 'El comprobante no es válido.' }}</p>

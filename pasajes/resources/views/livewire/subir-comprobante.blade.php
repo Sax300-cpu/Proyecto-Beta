@@ -1,7 +1,10 @@
 <div class="max-w-md mx-auto">
     @if($subido)
     <div class="bg-green-900/50 border border-green-700 text-green-300 px-5 py-4 rounded-xl">
-        <p class="font-bold text-green-200">✅ Comprobante enviado</p>
+        <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            <p class="font-bold text-green-200">Comprobante enviado</p>
+        </div>
         <p class="text-sm mt-1">Tu comprobante está en revisión. Recibirás un correo cuando sea validado.</p>
     </div>
     @else

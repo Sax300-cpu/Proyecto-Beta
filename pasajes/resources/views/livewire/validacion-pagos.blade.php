@@ -29,7 +29,9 @@
     {{-- Tabla de comprobantes --}}
     @if($comprobantes->isEmpty())
     <div class="text-center py-16 text-gray-500">
-        <div class="text-5xl mb-4">📋</div>
+        <div class="mb-4 flex justify-center">
+            <svg class="w-16 h-16 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+        </div>
         <p>No hay comprobantes con estado "{{ $filtroEstado }}".</p>
     </div>
     @else
@@ -138,13 +140,19 @@
                     <button wire:click="aprobar({{ $comprobanteModal->id }})"
                         wire:loading.attr="disabled"
                         class="flex-1 py-3 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl transition">
-                        <span wire:loading.remove wire:target="aprobar">✅ Aprobar</span>
+                        <span wire:loading.remove wire:target="aprobar" class="flex justify-center items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Aprobar
+                        </span>
                         <span wire:loading wire:target="aprobar">Procesando...</span>
                     </button>
                     <button wire:click="rechazar({{ $comprobanteModal->id }})"
                         wire:loading.attr="disabled"
                         class="flex-1 py-3 bg-red-700 hover:bg-red-600 text-white font-bold rounded-xl transition">
-                        <span wire:loading.remove wire:target="rechazar">❌ Rechazar</span>
+                        <span wire:loading.remove wire:target="rechazar" class="flex justify-center items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            Rechazar
+                        </span>
                         <span wire:loading wire:target="rechazar">Procesando...</span>
                     </button>
                 </div>

@@ -60,13 +60,17 @@
     <div wire:loading.remove>
         @if($hojas->isEmpty() && $origen && $destino)
         <div class="text-center py-16">
-            <div class="text-6xl mb-4">🚌</div>
+            <div class="mb-4 flex justify-center">
+                <svg class="w-20 h-20 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7h8M8 11h8m-9 4h10m-1-10V4a1 1 0 00-1-1H7a1 1 0 00-1 1v1m10 0a2 2 0 012 2v10a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h10z"></path></svg>
+            </div>
             <h3 class="text-xl font-semibold text-gray-300">No hay frecuencias disponibles</h3>
             <p class="text-gray-500 mt-2">Intenta con otra fecha u origen/destino diferente.</p>
         </div>
         @elseif(!$origen || !$destino)
         <div class="text-center py-16">
-            <div class="text-6xl mb-4">🗺️</div>
+            <div class="mb-4 flex justify-center">
+                <svg class="w-20 h-20 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 20l-5.447-4.724A1 1 0 013 14.382V5a1 1 0 011-1h4l2 4h4l2-4h4a1 1 0 011 1v9.382a1 1 0 01-.553.894L13 20H9z"></path></svg>
+            </div>
             <p class="text-gray-400">Ingresa origen y destino para buscar frecuencias.</p>
         </div>
         @else
@@ -106,8 +110,8 @@
                                     @if($hoja->frecuencia->ruta->cooperativa->logo_url)
                                         <img src="{{ asset('storage/' . $hoja->frecuencia->ruta->cooperativa->logo_url) }}" alt="Logo Coop" class="w-12 h-12 rounded-lg object-contain bg-white p-1 border border-gray-700">
                                     @else
-                                        <div class="w-12 h-12 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center text-xl shadow-inner">
-                                            🏢
+                                        <div class="w-12 h-12 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center text-gray-500 shadow-inner">
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
                                         </div>
                                     @endif
                                     

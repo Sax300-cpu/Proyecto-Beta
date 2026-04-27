@@ -98,22 +98,22 @@
             </h2>
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
                 @foreach([
-                    ['Validar Pagos',    route('admin.pagos'),          '💳', 'from-orange-500/10 to-yellow-500/10', 'text-yellow-500', 'border-yellow-500/20 hover:border-yellow-500/50'],
-                    ['Hojas de Ruta',   route('admin.hojas-ruta.index'),'📋', 'from-brand-500/10 to-indigo-500/10', 'text-brand-500', 'border-brand-500/20 hover:border-brand-500/50'],
-                    ['Buses',           route('admin.buses.index'),      '🚌', 'from-gray-500/10 to-gray-600/10', 'text-gray-300', 'border-gray-700 hover:border-gray-500'],
-                    ['Rutas',           route('admin.rutas.index'),      '🗺️', 'from-emerald-500/10 to-teal-500/10', 'text-emerald-400', 'border-emerald-500/20 hover:border-emerald-500/50'],
-                    ['Frecuencias',     route('admin.frecuencias.index'),'⏰', 'from-purple-500/10 to-pink-500/10', 'text-purple-400', 'border-purple-500/20 hover:border-purple-500/50'],
-                    ['Usuarios',        route('admin.usuarios.index'),   '👥', 'from-gray-500/10 to-gray-600/10', 'text-gray-300', 'border-gray-700 hover:border-gray-500'],
-                    ['Cooperativa',     route('admin.cooperativa'),      '🏢', 'from-brand-500/10 to-brand-600/10', 'text-brand-400', 'border-brand-500/20 hover:border-brand-500/50'],
-                    ['Categorías Bus',  route('admin.categorias-bus.index'), '🏷️', 'from-sky-500/10 to-blue-500/10', 'text-sky-400', 'border-sky-500/20 hover:border-sky-500/50'],
-                    ['Paradas',         route('admin.paradas.index'),    '📍', 'from-orange-500/10 to-amber-500/10', 'text-orange-400', 'border-orange-500/20 hover:border-orange-500/50'],
-                    ['Reportes',        route('admin.reportes.index'),   '📊', 'from-rose-500/10 to-pink-500/10', 'text-rose-400', 'border-rose-500/20 hover:border-rose-500/50'],
+                    ['Validar Pagos',    route('admin.pagos'),          '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>', 'from-orange-500/10 to-yellow-500/10', 'text-yellow-500', 'border-yellow-500/20 hover:border-yellow-500/50'],
+                    ['Hojas de Ruta',   route('admin.hojas-ruta.index'),'<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>', 'from-brand-500/10 to-indigo-500/10', 'text-brand-500', 'border-brand-500/20 hover:border-brand-500/50'],
+                    ['Buses',           route('admin.buses.index'),      '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h8M8 11h8m-9 4h10m-1-10V4a1 1 0 00-1-1H7a1 1 0 00-1 1v1m10 0a2 2 0 012 2v10a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h10z"></path></svg>', 'from-gray-500/10 to-gray-600/10', 'text-gray-300', 'border-gray-700 hover:border-gray-500'],
+                    ['Rutas',           route('admin.rutas.index'),      '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-4.724A1 1 0 013 14.382V5a1 1 0 011-1h4l2 4h4l2-4h4a1 1 0 011 1v9.382a1 1 0 01-.553.894L13 20H9z"></path></svg>', 'from-emerald-500/10 to-teal-500/10', 'text-emerald-400', 'border-emerald-500/20 hover:border-emerald-500/50'],
+                    ['Frecuencias',     route('admin.frecuencias.index'),'<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>', 'from-purple-500/10 to-pink-500/10', 'text-purple-400', 'border-purple-500/20 hover:border-purple-500/50'],
+                    ['Usuarios',        route('admin.usuarios.index'),   '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>', 'from-gray-500/10 to-gray-600/10', 'text-gray-300', 'border-gray-700 hover:border-gray-500'],
+                    ['Cooperativa',     route('admin.cooperativa'),      '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>', 'from-brand-500/10 to-brand-600/10', 'text-brand-400', 'border-brand-500/20 hover:border-brand-500/50'],
+                    ['Categorías',      route('admin.categorias-bus.index'), '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>', 'from-sky-500/10 to-blue-500/10', 'text-sky-400', 'border-sky-500/20 hover:border-sky-500/50'],
+                    ['Paradas',         route('admin.paradas.index'),    '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>', 'from-orange-500/10 to-amber-500/10', 'text-orange-400', 'border-orange-500/20 hover:border-orange-500/50'],
+                    ['Reportes',        route('admin.reportes.index'),   '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>', 'from-rose-500/10 to-pink-500/10', 'text-rose-400', 'border-rose-500/20 hover:border-rose-500/50'],
                 ] as [$label, $url, $icon, $bgGradient, $textColor, $border])
                 
                 <a href="{{ $url }}"
                    class="relative overflow-hidden bg-gray-900/50 border {{ $border }} rounded-2xl p-5 flex flex-col items-center justify-center gap-3 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 group backdrop-blur-sm">
                     <div class="absolute inset-0 bg-gradient-to-br {{ $bgGradient }} opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <div class="text-4xl filter drop-shadow-md transform group-hover:scale-110 transition-transform duration-300 relative z-10">{{ $icon }}</div>
+                    <div class="filter drop-shadow-md transform group-hover:scale-110 transition-transform duration-300 relative z-10 text-white group-hover:{{ $textColor }}">{!! $icon !!}</div>
                     <p class="text-xs font-bold {{ $textColor }} text-center relative z-10">{{ $label }}</p>
                 </a>
                 @endforeach
@@ -162,8 +162,8 @@
                             </td>
                             <td class="px-8 py-5">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center text-xl">
-                                        🚌
+                                    <div class="w-10 h-10 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center text-gray-400">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h8M8 11h8m-9 4h10m-1-10V4a1 1 0 00-1-1H7a1 1 0 00-1 1v1m10 0a2 2 0 012 2v10a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h10z"></path></svg>
                                     </div>
                                     <div>
                                         <div class="font-bold text-gray-200">#{{ $hoja->bus->numero_disco }}</div>
